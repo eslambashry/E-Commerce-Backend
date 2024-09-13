@@ -15,7 +15,7 @@ export async function sendEmailService({
     auth: {
       // credentials
       user: 'eslamhussin600@gmail.com',
-      pass: 'wjto szao rdra crzy',
+      pass: 'rkew ivbu xytk cvng',
     },
   })
 

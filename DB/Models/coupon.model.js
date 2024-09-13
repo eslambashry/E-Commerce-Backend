@@ -47,6 +47,11 @@ const couponSchema = new Schema(
                 type:Number,
                 required:true,
                 default:1,
+            },
+            usageCount:{
+                type:Number,
+                required:true,
+                default:0,
             }
         }],
         fromDate:{

@@ -56,5 +56,5 @@ const userSchema = new Schema({
         this.password = pkg.hashSync(this.password, +process.env.SALT_ROUNDS)
     })
 
-export const userModel = model('user', userSchema)
+export const userModel = model('User', userSchema)
 

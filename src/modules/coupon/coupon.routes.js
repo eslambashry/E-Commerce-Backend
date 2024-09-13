@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { allowedExtensions } from "../../units/allowedEtentions.js";
-import { asynchandler } from "../../units/errorHandeling.js";
+ import { asynchandler } from "../../units/errorHandeling.js";
 import * as cc from './coupon.controller.js'
 const router = Router()
 import { validationCoreFunction } from "../../middelware/validation.js";

@@ -13,5 +13,9 @@ router.post('/forget',asynchandler (ac.forgetPassword))
 
 router.post('/reset/:token',asynchandler (ac.resetPassword))
 
+router.get('/users',asynchandler (ac.getAllUser))
+
+
+
 export default router
  

@@ -4,7 +4,7 @@ import * as routers from '../modules/index.routes.js'
 import { changeCouponStatesCorn } from './corn.js'
  
 export const initiateApp = (app, express) => {
-    const port = process.env.PORT
+    const port = 8000 // ! PORT
 
 app.use(express.json())
 connectionDB()

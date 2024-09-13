@@ -23,7 +23,7 @@ export const signup = async(req,res,next) => {
     payload:{
         email,
     },
-    signature: process.env.CONFIRMATION_EMAIL_TOKEN,
+    signature: 'STITCH', // ! CONFIRMATION_EMAIL_TOKEN
     expiresIn: '1h',
  })
     const confirmationLink = `${req.protocol}://${req.headers.host}/auth/confirm/${token}`
@@ -59,7 +59,7 @@ export const confirmEmail = async(req,res,next) => {
 
     const decode = verifyToken({
         token,
-        signature: process.env.CONFIRMATION_EMAIL_TOKEN,
+        signature: 'STITCH', // ! process.env.CONFIRMATION_EMAIL_TOKEN
     })
     const user = await userModel.findOneAndUpdate(
         {email: decode?.email, isConfirmed:false},
@@ -72,7 +72,7 @@ export const confirmEmail = async(req,res,next) => {
             return res.status(200).json({message:'confirmed done, now log in'})
 }
 
-import pkg, { hash, hashSync } from 'bcrypt'
+import pkg from 'bcrypt'
 export const login = async(req,res,next) => {
     const {email,password} = req.body
 
@@ -94,9 +94,10 @@ export const login = async(req,res,next) => {
             _id: userExsist._id,
             role: userExsist.role
         },
-        signature: process.env.SIGN_IN_TOKEN_SECRET,
+        signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
         expiresIn: '1h',
      })
+     
 
      const userUpdated = await userModel.findOneAndUpdate(
         
@@ -121,13 +122,13 @@ export const forgetPassword = async(req,res,next) => {
     }
 
     const code = nanoid()
-    const hashcode = pkg.hashSync(code, +process.env.SALT_ROUNDS)
+    const hashcode = pkg.hashSync(code, 8) // ! process.env.SALT_ROUNDS
     const token = generateToken({
         payload:{
             email,
             sendCode:hashcode,
         },
-        signature: process.env.RESET_TOKEN,
+        signature: 'STITCH', // ! process.env.RESET_TOKEN
         expiresIn: '1h',
     })
     const resetPasswordLink = `${req.protocol}://${req.headers.host}/auth/reset/${token}`
@@ -154,7 +155,7 @@ export const forgetPassword = async(req,res,next) => {
 
 export const resetPassword = async(req,res,next) => {
     const {token} = req.params
-    const decoded = verifyToken({token, signature: process.env.RESET_TOKEN})
+    const decoded = verifyToken({token, signature: 'STITCH'}) // ! process.env.RESET_TOKEN
     const user = await userModel.findOne({
         email: decoded?.email,
         fotgetCode: decoded?.sentCode
@@ -171,4 +172,10 @@ export const resetPassword = async(req,res,next) => {
 
     const updatedUser = await user.save()
     res.status(200).json({message: "Done",updatedUser})
+}
+
+export const getAllUser = async(req,res,next) => {
+    const users = await userModel.find()
+
+    res.status(201).json({message:"Users",users})
 }

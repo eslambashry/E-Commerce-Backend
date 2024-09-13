@@ -25,7 +25,7 @@ export const createCategory = async (req, res, next) => {
     const customId = nanoid()
     const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path, {
-        folder: `${process.env.PROJECT_FOLDER}/Categories/${customId}`
+        folder: `E-COMMERCE/Categories/${customId}`
     })
     const categoryObject = {
         name,

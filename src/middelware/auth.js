@@ -9,16 +9,16 @@ export const isAuth = () => {
         return next(new Error('Please login first', { cause: 400 }))
       }
 
-      if (!authorization.startsWith('ecomm__')) {
-        return next(new Error('invalid token prefix', { cause: 400 }))
-      }
+      // if (!authorization.startsWith('ecomm__')) {
+      //   return next(new Error('invalid token prefix', { cause: 400 }))
+      // }
 
       const splitedToken = authorization.split(' ')[1]
 
       try {
         const decodedData = verifyToken({
           token: splitedToken,
-          signature: process.env.SIGN_IN_TOKEN_SECRET,
+          signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
         })
         const findUser = await userModel.findById(
           decodedData._id,
@@ -43,7 +43,7 @@ export const isAuth = () => {
               email: user.email,
               _id: user._id,
             },
-            signature: process.env.SIGN_IN_TOKEN_SECRET,
+            signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
             expiresIn: '1h',
           })
 
