@@ -27,7 +27,7 @@ const brandSchema = new Schema(
         createdBy: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: true,
+            // required: true, // TODO Didn't Know where to add it in the reqest
         },
         updatedBy: {
             type: Schema.Types.ObjectId,

@@ -25,7 +25,7 @@ export const createCategory = async (req, res, next) => {
     const customId = nanoid()
     const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path, {
-        folder: `E-COMMERCE/Categories/${customId}`
+        folder: `${process.env.PROJECT_FOLDER}/Categories/${customId}`
     })
     const categoryObject = {
         name,
@@ -128,7 +128,7 @@ export const deleteCategory = async (req, res, next) => {
     })                           //==> brand Id is required in products
 
     if (!deleteRelatedSubCategories.deletedCount){
-        return next(new Error('No Related SubCategory', { cause: 400 }))
+        return next(new Error('No Related SubCategory', { cause: 400 })) // ? delete done but it's not make scince to delete category (parent) and leve it's subCategory,brand (chid)
     } 
 
       if(!deleteRelatedBrand.deletedCount){
@@ -139,5 +139,4 @@ export const deleteCategory = async (req, res, next) => {
             return next(new Error('No Related Product', { cause: 400 }))
             }
         res.status(200).json({ message: 'Category deleted' })
-}
-
+} // TODO didnt delete all Subcategory and brand and product that in that category

@@ -4,7 +4,7 @@ import * as routers from '../modules/index.routes.js'
 import { changeCouponStatesCorn } from './corn.js'
  
 export const initiateApp = (app, express) => {
-    const port = 8000 // ! PORT
+    const port = process.env.PORT // ! PORT
 
 app.use(express.json())
 connectionDB()
@@ -26,5 +26,5 @@ app.use(globalResponse)
 changeCouponStatesCorn() //check coupon is expired every 12am 
 
 app.get('/', (req,res)=>res.send('Hellow World!'))
-app.listen(port, () => console.log(`3amo samy listening on port ${port}!`))
+app.listen(port, () => console.log(`Application 👂 on port ${port}`)) 
 }

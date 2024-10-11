@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 // ========================= generation ==============================
 export const generateToken = ({
   payload = {},
-  signature = 'STITCH', // ! process.env.DEFAULT_SIGNATURE
+  signature = process.env.DEFAULT_SIGNATURE, // ! process.env.DEFAULT_SIGNATURE
   expiresIn = '1d',
 } = {}) => {
   // check if the payload is empty object
@@ -17,7 +17,7 @@ export const generateToken = ({
 // =========================  Verify ==============================
 export const verifyToken = ({
   token = '',
-  signature = 'STITCH', // ! process.env.DEFAULT_SIGNATURE
+  signature = process.env.DEFAULT_SIGNATURE, // ! process.env.DEFAULT_SIGNATURE
 } = {}) => {
   // check if the payload is empty object
   if (!token) {

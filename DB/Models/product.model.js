@@ -12,8 +12,8 @@ const productSchema = new Schema({
         required:true,
         lowercase:true,
     },
-    colors:[String],
-    sizes:[String],
+    // colors:String,
+    // sizes:Number,
     price:{
         type:Number,
         required:true,
@@ -35,7 +35,7 @@ const productSchema = new Schema({
     createdBy:{
         type:Schema.Types.ObjectId, 
         ref:'User',
-        required:true,
+        // required:true,
     },
     updatedBy:{
         type:Schema.Types.ObjectId,

@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema , model} from "mongoose";
 
 
 const orderSchema = new Schema({
@@ -18,7 +18,19 @@ const orderSchema = new Schema({
             quantity: {
                 type: Number,
                 default: 1,
-                required: true
+                required: true,
+              },
+              title: {
+                type: String,
+                required: true,
+              },
+              price: {
+                type: Number,
+                required: true,
+              },
+              finalPrice: {
+                type: Number,
+                required: true,
             },
         },
     ],
@@ -28,13 +40,16 @@ const orderSchema = new Schema({
         default: 0,
         required: true 
     },
+    couponId: {
+        type: Schema.Types.ObjectId,
+        ref: 'coupon',
+      },
     paidAmount:{
         type:Number,
         default: 0,
         required: true
     },
-    productNumbers:[{type:String,required:true}],
-
+    productNumbers:{type:Number,required:true},
     orderStatus:{
         type:String,
         enum:[
@@ -50,7 +65,7 @@ const orderSchema = new Schema({
     paymentMethod:{
         type:String,
         required:true,
-        enum:['cart','cash']
+        enum:['card','cash']
     },
     updatedBy:{
         type:Schema.Types.ObjectId,

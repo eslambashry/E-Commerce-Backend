@@ -14,6 +14,11 @@ const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 export const addProduct = async (req, res, next) => {
     const { title, desc, price, appliedDiscount, colors, sizes, stock } = req.body
   
+
+    // TODO sizes and colors didn't sent as array
+    console.log(sizes); console.log(colors);
+    
+    
     const { categoryId, subCategoryId, brandId } = req.query
     // check Ids
     
@@ -31,20 +36,21 @@ export const addProduct = async (req, res, next) => {
         return next(new Error('invalid brandId', { cause: 400 }))
     }
     
-  
+    
     const slug = slugify(title, {
       replacement: '_',
     })
-    //   if (appliedDiscount) {
-    //   const priceAfterDiscount = price - price * ((appliedDiscount || 0) / 100)
-    const priceAfterDiscount = price * (1 - (appliedDiscount || 0) / 100)
-    //   }
-  
+      
+    if (appliedDiscount) {
+    var priceAfterDiscount = price - price * ((appliedDiscount || 0) / 100);
+    }
+    
     if (!req.files) {
       return next(new Error('please upload pictures', { cause: 400 }))
     }
+
     const customId = nanoid()
-    console.log(customId);
+    // console.log(customId);
     const Images = []
     const publicIds = []
     for (const file of req.files) {
@@ -76,7 +82,7 @@ export const addProduct = async (req, res, next) => {
       Images,
       customId,
     }
-    productObject = 8
+    
     const product = await productModel.create(productObject)
     // TODO: delete the uploaded pirctures if the function fail in catch scope
     if (!product) {

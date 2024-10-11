@@ -1,4 +1,5 @@
-import { couponModel } from "../../DB/Models/coupon.model"
+import { couponModel } from "../../DB/Models/coupon.model.js"
+import moment from 'moment';
 
 export const isCouponValid = async  ({userId, couponCode, next} = {}) =>{
     const coupon = await couponModel.findOne({ couponCode })
@@ -18,7 +19,7 @@ export const isCouponValid = async  ({userId, couponCode, next} = {}) =>{
                 return next(new Error('this coupon did not assigned to this user',{cause:400}))
             }
 
-            if(user.maxUsage < user.usageCount){
+            if(user.maxUsage <= user.usageCount){
                 return next(new Error('u are exceed the max lenght',{cause:400}))
             }
             

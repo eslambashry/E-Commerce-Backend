@@ -30,6 +30,7 @@ export const createCoupon = async(req,res,next) => {
         toDate,
         isPercentage,
         isFixedAmmount,
+        couponAssginedToUsers,
         createdBy:req.authUser._id,
     }
 

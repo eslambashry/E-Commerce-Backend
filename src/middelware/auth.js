@@ -18,7 +18,7 @@ export const isAuth = () => {
       try {
         const decodedData = verifyToken({
           token: splitedToken,
-          signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
+          signature: process.env.SIGN_IN_TOKEN_SECRET, // ! process.env.SIGN_IN_TOKEN_SECRET STITCH
         })
         const findUser = await userModel.findById(
           decodedData._id,
@@ -43,7 +43,7 @@ export const isAuth = () => {
               email: user.email,
               _id: user._id,
             },
-            signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
+            signature: process.env.SIGN_IN_TOKEN_SECRET, // ! process.env.SIGN_IN_TOKEN_SECRET
             expiresIn: '1h',
           })
 

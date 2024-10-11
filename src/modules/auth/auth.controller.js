@@ -23,7 +23,7 @@ export const signup = async(req,res,next) => {
     payload:{
         email,
     },
-    signature: 'STITCH', // ! CONFIRMATION_EMAIL_TOKEN
+    signature: process.env.CONFIRMATION_EMAIL_TOKEN, // ! CONFIRMATION_EMAIL_TOKEN
     expiresIn: '1h',
  })
     const confirmationLink = `${req.protocol}://${req.headers.host}/auth/confirm/${token}`
@@ -59,7 +59,7 @@ export const confirmEmail = async(req,res,next) => {
 
     const decode = verifyToken({
         token,
-        signature: 'STITCH', // ! process.env.CONFIRMATION_EMAIL_TOKEN
+        signature: process.env.CONFIRMATION_EMAIL_TOKEN, // ! process.env.CONFIRMATION_EMAIL_TOKEN
     })
     const user = await userModel.findOneAndUpdate(
         {email: decode?.email, isConfirmed:false},
@@ -94,7 +94,7 @@ export const login = async(req,res,next) => {
             _id: userExsist._id,
             role: userExsist.role
         },
-        signature: 'STITCH', // ! process.env.SIGN_IN_TOKEN_SECRET
+        signature: process.env.SIGN_IN_TOKEN_SECRET, // ! process.env.SIGN_IN_TOKEN_SECRET
         expiresIn: '1h',
      })
      
@@ -122,13 +122,13 @@ export const forgetPassword = async(req,res,next) => {
     }
 
     const code = nanoid()
-    const hashcode = pkg.hashSync(code, 8) // ! process.env.SALT_ROUNDS
+    const hashcode = pkg.hashSync(code, process.env.SALT_ROUNDS) // ! process.env.SALT_ROUNDS
     const token = generateToken({
         payload:{
             email,
             sendCode:hashcode,
         },
-        signature: 'STITCH', // ! process.env.RESET_TOKEN
+        signature: process.env.RESET_TOKEN, // ! process.env.RESET_TOKEN
         expiresIn: '1h',
     })
     const resetPasswordLink = `${req.protocol}://${req.headers.host}/auth/reset/${token}`
@@ -155,7 +155,7 @@ export const forgetPassword = async(req,res,next) => {
 
 export const resetPassword = async(req,res,next) => {
     const {token} = req.params
-    const decoded = verifyToken({token, signature: 'STITCH'}) // ! process.env.RESET_TOKEN
+    const decoded = verifyToken({token, signature: process.env.RESET_TOKEN}) // ! process.env.RESET_TOKEN
     const user = await userModel.findOne({
         email: decoded?.email,
         fotgetCode: decoded?.sentCode
