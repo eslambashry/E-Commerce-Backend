@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { validationCoreFunction } from "../../middelware/validation.js";
-import { multerCloudFunction } from "../../servecis/multerCloud.js";
-import { allowedExtensions } from "../../units/allowedEtentions.js";
-import { asynchandler } from "../../units/errorHandeling.js";
+import { validationCoreFunction } from "../../middleware/validation.js";
+import { multerCloudFunction } from "../../services/multerCloud.js";
+import { allowedExtensions } from "../../utilities/allowedEtentions.js";
+import { asynchandler } from "../../utilities/errorHandeling.js";
 import * as bc from './brand.controller.js'
 import * as validator from "./brand.validationSchema.js"
 

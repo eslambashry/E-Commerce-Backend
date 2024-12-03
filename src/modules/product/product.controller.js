@@ -2,11 +2,11 @@ import slugify from "slugify"
 import { brandModel } from "../../../DB/Models/brand.model.js"
 import { categoryModel } from "../../../DB/Models/category.model.js"
 import { subCategoryModel } from "../../../DB/Models/subCategory.model.js"
-import cloudinary from "../../units/cloudinaryConfigrations.js"
+import cloudinary from "../../utilities/cloudinaryConfigrations.js"
 import { customAlphabet } from 'nanoid'
 import { productModel } from "../../../DB/Models/product.model.js"
-import { pagination } from "../../units/pagination.js"
-import { apiFeatures } from "../../units/apiFeature.js"
+import { pagination } from "../../utilities/pagination.js"
+import { apiFeatures } from "../../utilities/apiFeature.js"
 const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 
 

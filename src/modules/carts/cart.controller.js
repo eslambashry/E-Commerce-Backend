@@ -4,62 +4,79 @@ import { productModel } from "../../../DB/Models/product.model.js"
 
 //========================= Add To Cart ======================================
 export const addToCart = async (req, res, next) => {
-    const userId = req.authUser._id
+    const userId = req.authUser._id;
+    const { productId, quantity } = req.body;
 
-    const { productId, quantaty } = req.body
-
-    // Check Product 
-
-    let product = await productModel.findOne({
+    // Check Product
+    const product = await productModel.findOne({
         _id: productId,
-        stock: { $gte: quantaty }
-    })
+        stock: { $gte: quantity }
+    }).select('title price priceAfterDiscount'); // Ensure we get title, price, and priceAfterDiscount
 
     if (!product) {
-        return res.status(400).json({ message: 'Product Not Found' })
+        return res.status(400).json({ message: 'Product Not Found or not enough stock' });
     }
 
-
-    const userCart = await cartModel.findOne({ userId })
+    const userCart = await cartModel.findOne({ userId });
     if (userCart) {
-        //update quantaty
-        let productExsist = false;
-        for (const product of userCart.products) {
-            if (productId == product.productId) {
-                productExsist = true;
-                product.quantaty = quantaty;
+        // Update quantity or add product
+        let productExists = false;
+
+        for (const cartProduct of userCart.products) {
+            if (cartProduct.productId.toString() === productId.toString()) { // Ensure comparison works with ObjectId
+                productExists = true;
+                cartProduct.quantity += quantity; // Increment quantity instead of overwriting
+                break;
             }
         }
-        //add product
-        if (!productExsist) {
-            userCart.products.push({ productId, quantaty })
+
+        // Add product if it doesn't exist
+        if (!productExists) {
+            userCart.products.push({
+                productId: product._id,
+                quantity,
+                title: product.title, // Add the product title
+                price: product.price, // Add the product price
+                finalPrice: product.priceAfterDiscount || product.price // Add the price after discount or the base price
+            });
         }
+
+        // Calculate new subtotal
         let subTotal = 0;
-        for (const product of userCart.products) {
-            const productExsist = await productModel.findById(product.productId)
-            subTotal += (productExsist.priceAfterDiscount * product.quantaty) || 0
+        for (const cartProduct of userCart.products) {
+            const productDetails = await productModel.findById(cartProduct.productId).select('priceAfterDiscount');
+            subTotal += (productDetails.priceAfterDiscount * cartProduct.quantity) || 0;
         }
-        const newCart = await cartModel.findOneAndUpdate(
+
+        // Update the cart with the new subtotal and products
+        const updatedCart = await cartModel.findOneAndUpdate(
             { userId },
             {
                 subTotal,
                 products: userCart.products
             },
             { new: true }
-        )
-        return res.status(200).json({ message: "Done", newCart })
+        );
+
+        return res.status(200).json({ message: "Cart Updated", updatedCart });
     }
 
+    // Create new cart if it doesn't exist
     const cartObject = {
         userId,
-        products: [{ productId, quantaty }],
-        subTotal: product.priceAfterDiscount * quantaty,
-    }
+        products: [{
+            productId: product._id,
+            quantity,
+            title: product.title, // Add the product title
+            price: product.price, // Add the product price
+            finalPrice: product.priceAfterDiscount || product.price // Add the price after discount or the base price
+        }],
+        subTotal: product.priceAfterDiscount * quantity,
+    };
 
-    const cartDB = await cartModel.create(cartObject)
-
-    res.status(201).json({ message: 'Cart Added', cartDB })
-}
+    const cartDB = await cartModel.create(cartObject);
+    res.status(201).json({ message: 'Cart Created', cartDB });
+};
 
 //============================== delete From Cart ============================
 export const deleteFromCart = async (req, res, next) => {
@@ -82,8 +99,8 @@ export const deleteFromCart = async (req, res, next) => {
     userCart.products.forEach((ele) => {
         if (ele.productId == productId) {
 
-            // console.log("subTotal - (Product: price*quantaty) = ", userCart.subTotal," - " ,price * ele.quantaty);
-            userCart.subTotal -= (price * ele.quantaty) || 0
+            // console.log("subTotal - (Product: price*quantity) = ", userCart.subTotal," - " ,price * ele.quantity);
+            userCart.subTotal -= (price * ele.quantity) || 0
             userCart.products.splice(userCart.products.indexOf(ele), 1)
 
         }

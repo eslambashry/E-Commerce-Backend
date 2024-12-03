@@ -1,5 +1,5 @@
 import joi from 'joi'
-import { generalFields } from '../../middelware/validation.js'
+import { generalFields } from '../../middleware/validation.js'
 export const createcouponSchema = {
     body: joi
     .object({

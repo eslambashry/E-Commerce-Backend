@@ -18,13 +18,12 @@ export const changeCouponStatesCorn = () => {
                 }
                 await coupon.save()
             }
-            console.log(`corn changeCouponStatesCorn() is running`);
+            // console.log(`corn changeCouponStatesCorn() is running`);
     })
 } 
 
-
-// 0: Minute field (0th minute of the hour)
-// 0: Hour field (0th hour of the day, which is 12:00 AM)
-// *: Day of the month field (every day of the month)
-// *: Month field (every month)
-// *: Day of the week field (every day of the week)
+// ^ 0: Minute field (0th minute of the hour)
+// ^ 0: Hour field (0th hour of the day, which is 12:00 AM)
+// ^ *: Day of the month field (every day of the month)
+// ^ *: Month field (every month)
+// ^ *: Day of the week field (every day of the week)

@@ -1,7 +1,7 @@
 import slugify from "slugify"
 import { categoryModel } from "../../../DB/Models/category.model.js"
 import { subCategoryModel } from "../../../DB/Models/subCategory.model.js"
-import cloudinary from "../../units/cloudinaryConfigrations.js"
+import cloudinary from "../../utilities/cloudinaryConfigrations.js"
 import { brandModel } from "../../../DB/Models/brand.model.js"
 import { customAlphabet } from 'nanoid'
 const nanoid = customAlphabet('123456_=!ascbhdtel', 5)

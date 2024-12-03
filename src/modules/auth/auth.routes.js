@@ -1,6 +1,6 @@
 import * as ac from './auth.controller.js'
 import { Router } from "express";
-import {asynchandler} from '../../units/errorHandeling.js'
+import {asynchandler} from '../../utilities/errorHandeling.js'
 const router = Router()
 
 router.post('/',asynchandler (ac.signup))

@@ -1,7 +1,7 @@
 import { userModel } from '../../DB/Models/user.model.js'
-import { generateToken, verifyToken } from '../units/tokenFunctions.js'
+import { generateToken, verifyToken } from '../utilities/tokenFunctions.js'
 
-export const isAuth = () => {
+export const isAuth = (roles) => {
   return async (req, res, next) => {
     try {
       const { authorization } = req.headers
@@ -26,6 +26,12 @@ export const isAuth = () => {
         )
         if (!findUser) {
           return next(new Error('Please SignUp', { cause: 400 }))
+        }
+        // console.log(roles);
+        // console.log(findUser.role);
+        // ~ Authorization error
+        if(!roles.includes(findUser.role)){
+          return next(new Error('UnAuthorized to access this api', { cause: 400 }))
         }
         req.authUser = findUser
         next()

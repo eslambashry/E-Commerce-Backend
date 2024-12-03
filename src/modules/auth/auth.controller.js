@@ -1,7 +1,7 @@
 import { userModel } from "../../../DB/Models/user.model.js"
-import {generateToken, verifyToken} from "../../units/tokenFunctions.js"
-import {sendEmailService} from "../../servecis/sendEmailServecies.js"
-import { emailTemplate } from "../../units/emailTemplate.js"
+import {generateToken, verifyToken} from "../../utilities/tokenFunctions.js"
+import {sendEmailService} from "../../services/sendEmailServecies.js"
+import { emailTemplate } from "../../utilities/emailTemplate.js"
 
 
 export const signup = async(req,res,next) => {

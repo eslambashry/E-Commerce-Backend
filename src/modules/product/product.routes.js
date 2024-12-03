@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import * as pc from './product.controller.js'
-import { asynchandler } from '../../units/errorHandeling.js'
-import { multerCloudFunction } from '../../servecis/multerCloud.js'
-import { allowedExtensions } from '../../units/allowedEtentions.js'
+import { asynchandler } from '../../utilities/errorHandeling.js'
+import { multerCloudFunction } from '../../services/multerCloud.js'
+import { allowedExtensions } from '../../utilities/allowedEtentions.js'
 import * as validators from './product.validationSchema.js'
-import { validationCoreFunction } from '../../middelware/validation.js'
+import { validationCoreFunction } from '../../middleware/validation.js'
 
 
 const router = Router()

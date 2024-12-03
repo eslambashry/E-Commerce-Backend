@@ -5,5 +5,5 @@
     "powermode.explosions.backgroundMode": "mask",
     "powermode.shake.intensity": 0,
     "powermode.combo.counterEnabled": "default",
-    "powermode.combo.location": "default"
+    "powermode.combo.location": "statusbar"
 }

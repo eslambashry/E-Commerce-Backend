@@ -14,7 +14,7 @@ const cartSchema = new Schema(
                     ref: 'user',
                     required: true,
                 },
-                quantaty: {
+                quantity: {
                     type: Number,
                     required: true,
                 },
